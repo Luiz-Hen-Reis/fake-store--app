@@ -1,14 +1,39 @@
 import Head from "next/head";
+import { GetServerSideProps } from "next";
 
-function Index() {
+import { Card, Header } from "@/components";
+
+import fakeStoreApi from "@/utils/fakeStoreApi";
+import { Product } from "@/types/product";
+
+type Props = {
+  products: Product[]
+}
+
+function Index({ products }: Props) {
   return (
     <>
       <Head>
-        <title>Novo Projeto</title>
+        <title>Fake Store App</title>
       </Head>
-      <div>Bora Codar?</div>
+      <Header />
+      {products.map((product) => (
+        <Card product={product} />
+      ))}
     </>
   )
 }
 
 export default Index;
+
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const products: Product[] = await fakeStoreApi.getProducts();
+
+  return {
+    props: {
+      products
+    }
+  }
+}
+
