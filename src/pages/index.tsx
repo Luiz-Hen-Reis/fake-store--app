@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { GetServerSideProps } from "next";
 
-import { Card, Header } from "@/components";
+import { Card, GridArea, Header } from "@/components";
 
 import fakeStoreApi from "@/utils/fakeStoreApi";
 import { Product } from "@/types/product";
@@ -17,9 +17,7 @@ function Index({ products }: Props) {
         <title>Fake Store App</title>
       </Head>
       <Header />
-      {products.map((product) => (
-        <Card product={product} />
-      ))}
+      <GridArea products={products} />
     </>
   )
 }

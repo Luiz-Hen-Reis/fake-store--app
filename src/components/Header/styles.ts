@@ -14,9 +14,10 @@ export const Container = styled.header`
     margin: auto;
     position: sticky;
     top: 0;
+    z-index: 99;
 
     img {
-      margin: ${theme.spacings.large};
+      margin: ${theme.spacings.medium};
     }
 
     @media ${theme.media.medium} {

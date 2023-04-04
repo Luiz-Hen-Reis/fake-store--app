@@ -8,10 +8,11 @@ type Props = {
 function Card({ product }: Props) {
   return (
     <Styled.Container>
-      <Styled.ImgContainer>
         <img src={product.image} />
-      </Styled.ImgContainer>
-      <p>{product.title}</p>
+      <b>$ {Number(product.price).toFixed(2)}</b>
+      <h1>{product.title}</h1>
+      <p>{product.description.substring(0, 112)}....<span>Show more</span></p>
+      <button>Add to Cart</button>
     </Styled.Container>
   );
 }
