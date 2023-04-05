@@ -55,6 +55,7 @@ export const RightSide = styled.div`
       border: 2px solid ${theme.colors.night};
       border-radius: ${theme.borderRadius};
       color: ${theme.colors.imperialRed};
+      cursor: pointer;
     }
   `}
 `;

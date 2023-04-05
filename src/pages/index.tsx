@@ -1,9 +1,11 @@
 import Head from "next/head";
 import { GetServerSideProps } from "next";
+import { useState } from "react";
 
-import { Card, GridArea, Header } from "@/components";
+import { GridArea, Header } from "@/components";
 
 import fakeStoreApi from "@/utils/fakeStoreApi";
+
 import { Product } from "@/types/product";
 
 type Props = {
@@ -11,13 +13,15 @@ type Props = {
 }
 
 function Index({ products }: Props) {
+  const [productList, setProductList] = useState<Product[]>(products);
+
   return (
     <>
       <Head>
         <title>Fake Store App</title>
       </Head>
       <Header />
-      <GridArea products={products} />
+      <GridArea products={productList} />
     </>
   )
 }

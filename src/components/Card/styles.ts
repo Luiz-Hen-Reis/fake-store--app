@@ -35,10 +35,6 @@ export const Container = styled.article`
 
     p {
         font-size: 1.4rem;
-
-        span {
-        cursor: pointer;
-        color: ${theme.colors.indianRed};
     }
     }
 
