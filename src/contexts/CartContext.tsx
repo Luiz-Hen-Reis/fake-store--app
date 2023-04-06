@@ -1,22 +1,21 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import { Product } from "@/types/product";
+import {
+  MouseEventHandler,
+  ReactNode,
+  createContext,
+  useContext,
+  useState,
+} from "react";
 
 type Props = {
   children: ReactNode;
 };
 
-type CartItem = {
-  id: number;
-  title: string;
-  price: string;
-  category: string;
-  description: string;
-  image: string;
-};
-
 type CartContextType = {
-  cartItems: CartItem[];
-  addItemToCart: (newItem: CartItem) => void;
+  cartItems: Product[];
+  addItemToCart: (newItem: Product) => void;
   handleCart: () => void;
+  cartIsOpen: boolean;
 };
 
 export function useCartContext() {
@@ -27,21 +26,22 @@ export const CartContext = createContext({} as CartContextType);
 
 export function CartProvider({ children }: Props) {
   const [cartIsOpen, setCartIsOpen] = useState<boolean>(false);
+  const [cartItems, setCartItems] = useState<Product[]>([]);
 
-  const cartItems: CartItem[] = [];
+  function addItemToCart(newItem: Product) {
+    let newCartList = cartItems;
+    newCartList.unshift(newItem);
 
-  function addItemToCart(newItem: CartItem) {
-    if (!cartItems.includes(newItem)) {
-      return cartItems.unshift(newItem);
-    }
+    setCartItems(newCartList);
+    console.log(cartItems);
   }
 
   function handleCart() {
-    setCartIsOpen(!cartIsOpen);
+    setCartIsOpen(!cartIsOpen);   
   }
 
   return (
-    <CartContext.Provider value={{ cartItems, addItemToCart, handleCart }}>
+    <CartContext.Provider value={{ cartItems, addItemToCart, handleCart, cartIsOpen }}>
       {children}
     </CartContext.Provider>
   );
