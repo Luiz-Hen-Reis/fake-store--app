@@ -1,21 +1,25 @@
 import { Product } from "@/types/product";
-import {
-  MouseEventHandler,
-  ReactNode,
-  createContext,
-  useContext,
-  useState,
-} from "react";
+import { ReactNode, createContext, useContext, useState } from "react";
 
 type Props = {
   children: ReactNode;
 };
 
+type CartItem = {
+  id: number;
+  quantity: number;
+}
+
 type CartContextType = {
-  cartItems: Product[];
-  addItemToCart: (newItem: Product) => void;
-  handleCart: () => void;
-  cartIsOpen: boolean;
+  cartItems: CartItem[];
+  cartQuantity: number;
+  addItemToCart: (id: number) => void;
+  increaseCartQuantity: (id: number) => void;
+  decreaseCartQuantity: (id: number) => void;
+  removeFromCart: (id: number) => void;
+  closeCart: () => void;
+  openCart: () => void;
+  isOpen: boolean;
 };
 
 export function useCartContext() {
@@ -25,23 +29,69 @@ export function useCartContext() {
 export const CartContext = createContext({} as CartContextType);
 
 export function CartProvider({ children }: Props) {
-  const [cartIsOpen, setCartIsOpen] = useState<boolean>(false);
-  const [cartItems, setCartItems] = useState<Product[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  function addItemToCart(newItem: Product) {
-    let newCartList = cartItems;
-    newCartList.unshift(newItem);
+  const cartQuantity = cartItems.reduce(
+    (quantity, item) => item.quantity + quantity,
+    0
+  );
 
-    setCartItems(newCartList);
-    console.log(cartItems);
+  function addItemToCart(id: number) {
+     setCartItems([...cartItems, { id, quantity: 1 }])
   }
 
-  function handleCart() {
-    setCartIsOpen(!cartIsOpen);   
+  function increaseCartQuantity(id: number) {
+    setCartItems((currItems) => {
+      return currItems.map((item) => {
+        if (item.id === id) {
+          return { ...item, quantity: item.quantity + 1 };
+        } else {
+          return item;
+        }
+      });
+    });
   }
+
+  function decreaseCartQuantity(id: number) {
+    setCartItems((currItems) => {
+      if (currItems.find((item) => item.id === id)?.quantity === 1) {
+        return currItems.filter((item) => item.id !== id);
+      } else {
+        return currItems.map((item) => {
+          if (item.id === id) {
+            return { ...item, quantity: item.quantity - 1 };
+          } else {
+            return item;
+          }
+        });
+      }
+    });
+  }
+
+  function removeFromCart(id: number) {
+    setCartItems((currItems) => {
+      return currItems.filter((item) => item.id !== id);
+    });
+  }
+
+  const openCart = () => setIsOpen(true);
+  const closeCart = () => setIsOpen(false);
 
   return (
-    <CartContext.Provider value={{ cartItems, addItemToCart, handleCart, cartIsOpen }}>
+    <CartContext.Provider
+      value={{
+        cartItems,
+        cartQuantity,
+        addItemToCart,
+        increaseCartQuantity,
+        decreaseCartQuantity,
+        removeFromCart,
+        openCart,
+        closeCart,
+        isOpen
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

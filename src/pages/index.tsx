@@ -2,11 +2,12 @@ import Head from "next/head";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
 
-import { GridArea, Header } from "@/components";
+import { GridArea, Header, ShoppingCart } from "@/components";
 
 import fakeStoreApi from "@/utils/fakeStoreApi";
 
 import { Product } from "@/types/product";
+import { useCartContext } from "@/contexts/CartContext";
 
 type Props = {
   products: Product[]
@@ -14,6 +15,7 @@ type Props = {
 
 function Index({ products }: Props) {
   const [productList, setProductList] = useState<Product[]>(products);
+  const { isOpen } = useCartContext();
 
   return (
     <>
@@ -21,6 +23,9 @@ function Index({ products }: Props) {
         <title>Fake Store App</title>
       </Head>
       <Header />
+        {isOpen &&
+          <ShoppingCart products={productList} />
+        }
       <GridArea products={productList} />
     </>
   )

@@ -14,7 +14,7 @@ export const Container = styled.header`
     margin: auto;
     position: sticky;
     top: 0;
-    z-index: 99;
+    z-index: 50;
 
     img {
       margin: ${theme.spacings.medium};
@@ -36,15 +36,6 @@ export const RightSide = styled.div`
     display: flex;
     flex-flow: row wrap;
     align-items: center;
-
-    input {
-      flex: 2;
-      height: 3rem;
-      border-radius: ${theme.borderRadius};
-      padding: ${theme.spacings.xsmall};
-      outline: none;
-      border: 2px solid ${theme.colors.night};
-    }
 
     span {
       flex: 1;
