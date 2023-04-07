@@ -13,11 +13,15 @@ function Card({ product }: Props) {
 
   function handleCartItem(product: Product) {
     if (cartItems.find((item) => item.id === product.id) == null) {
-      addItemToCart(product.id);
+      addItemToCart({ ...product, quantity: 1 });
       setDisableBtn(true);
     } else {
-      removeFromCart(product.id);
-      setDisableBtn(false);
+      if (cartItems.find((item) => item.id) == null) {
+        setDisableBtn(false);
+      } else {
+        removeFromCart(product.id);
+        setDisableBtn(false);
+      }
     }
   }
 

@@ -5,15 +5,14 @@ type Props = {
   children: ReactNode;
 };
 
-type CartItem = {
-  id: number;
+export interface CartItem extends Product  {
   quantity: number;
 }
 
 type CartContextType = {
   cartItems: CartItem[];
   cartQuantity: number;
-  addItemToCart: (id: number) => void;
+  addItemToCart: (newItem: CartItem) => void;
   increaseCartQuantity: (id: number) => void;
   decreaseCartQuantity: (id: number) => void;
   removeFromCart: (id: number) => void;
@@ -37,8 +36,8 @@ export function CartProvider({ children }: Props) {
     0
   );
 
-  function addItemToCart(id: number) {
-     setCartItems([...cartItems, { id, quantity: 1 }])
+  function addItemToCart(newItem: CartItem) {
+     setCartItems([...cartItems, newItem ])
   }
 
   function increaseCartQuantity(id: number) {

@@ -24,7 +24,7 @@ function Index({ products }: Props) {
       </Head>
       <Header />
         {isOpen &&
-          <ShoppingCart products={productList} />
+          <ShoppingCart />
         }
       <GridArea products={productList} />
     </>
