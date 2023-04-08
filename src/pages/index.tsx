@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { GetServerSideProps } from "next";
-import { useState } from "react";
 
 import { GridArea, Header, ShoppingCart } from "@/components";
 
@@ -14,7 +13,6 @@ type Props = {
 }
 
 function Index({ products }: Props) {
-  const [productList, setProductList] = useState<Product[]>(products);
   const { isOpen } = useCartContext();
 
   return (
@@ -26,7 +24,7 @@ function Index({ products }: Props) {
         {isOpen &&
           <ShoppingCart />
         }
-      <GridArea products={productList} />
+      <GridArea products={products} />
     </>
   )
 }

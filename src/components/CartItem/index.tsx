@@ -6,23 +6,26 @@ type Props = {
 };
 
 function CartItem({ item }: Props) {
-  const { increaseCartQuantity, decreaseCartQuantity, closeCart } =
+  const { increaseCartQuantity, decreaseCartQuantity } =
     useCartContext();
+
+  function priceItem(): number {
+    item.totalItemPrice = parseFloat(item.price) * item.quantity;
+
+    return item.totalItemPrice;
+  }
 
   return (
     <Styled.Container>
       <img src={item.image} alt={item.title} />
-      <p>{item.title.substring(0, 20)}...</p>
+      <Styled.Title>
+        <p>{item.title.substring(0, 20)}...</p>
+        <b>$ {priceItem().toFixed(2)}</b>
+      </Styled.Title>
       <Styled.RightSide>
         <button onClick={() => increaseCartQuantity(item.id)}>+</button>
         <span>{item.quantity}</span>
-        <button
-          onClick={() => {
-            decreaseCartQuantity(item.id), closeCart();
-          }}
-        >
-          -
-        </button>
+        <button onClick={() => decreaseCartQuantity(item.id)}>-</button>
       </Styled.RightSide>
     </Styled.Container>
   );

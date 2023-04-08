@@ -1,5 +1,5 @@
-import { Product } from '@/types/product'
 import * as Styled from './styles';
+import { Product } from '@/types/product'
 import Card from '../Card';
 
 type Props = {

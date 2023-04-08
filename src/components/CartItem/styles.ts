@@ -11,7 +11,8 @@ export const Container = styled.div`
     margin: ${theme.spacings.xsmall} 0;
     border-radius: ${theme.borderRadius};
     box-shadow: ${theme.boxShadow};
-    
+    height: 16rem;
+
     img {
         mix-blend-mode: multiply;
         width: 8rem;
@@ -27,6 +28,19 @@ export const Container = styled.div`
     }
     `}
 `;
+
+export const Title = styled.div`
+    ${({ theme }) => css`
+        display: flex;
+        flex-flow: column nowrap;
+
+        b {
+            font-size: ${theme.font.sizes.small};
+        }
+    `}
+`;
+
+
 export const RightSide = styled.div`
     ${({ theme }) => css`
     display: flex;
@@ -43,6 +57,7 @@ export const RightSide = styled.div`
         align-items: center;
         justify-content: center;
         border-radius: ${theme.borderRadius};
+        cursor: pointer;
     }
 
     span {

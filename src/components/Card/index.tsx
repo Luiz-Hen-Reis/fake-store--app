@@ -1,27 +1,34 @@
-import { Product } from "@/types/product";
 import * as Styled from "./styles";
+import { Product } from "@/types/product";
 import { useCartContext } from "@/contexts/CartContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   product: Product;
 };
 
 function Card({ product }: Props) {
-  const [disableBtn, setDisableBtn] = useState(false);
+  const [cancelBtn, setCancelBtn] = useState(false);
   const { addItemToCart, removeFromCart, cartItems } = useCartContext();
+
+  useEffect(() => {
+    if (cartItems.find(item => item.id === product.id) == null) {
+      setCancelBtn(false)
+    }
+
+  }, [cartItems])
+
 
   function handleCartItem(product: Product) {
     if (cartItems.find((item) => item.id === product.id) == null) {
-      addItemToCart({ ...product, quantity: 1 });
-      setDisableBtn(true);
+      addItemToCart({
+        ...product, quantity: 1,
+        totalItemPrice: parseFloat(product.price)
+      });
+      setCancelBtn(true);
     } else {
-      if (cartItems.find((item) => item.id) == null) {
-        setDisableBtn(false);
-      } else {
-        removeFromCart(product.id);
-        setDisableBtn(false);
-      }
+      removeFromCart(product.id);
+      setCancelBtn(false);
     }
   }
 
@@ -32,7 +39,7 @@ function Card({ product }: Props) {
       <h1>{product.title}</h1>
       <p>{product.description.substring(0, 112)}....</p>
       <button onClick={() => handleCartItem(product)}>
-        {disableBtn ? "Cancel" : "Add to Cart"}
+        {cancelBtn ? "Cancel" : "Add to Cart"}
       </button>
     </Styled.Container>
   );
